@@ -10,6 +10,13 @@ namespace Repository.VipManage
 {
     public class VipRepository : BaseRepository
     {
+        #region 添加
+        /// <summary>
+        /// 添加会员
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="openId"></param>
+        /// <returns></returns>
         public bool InsertVip(Vip v, string openId)
         {
             string sql = @"INSERT INTO [IndexCRM].[dbo].[Vip]
@@ -37,14 +44,44 @@ namespace Repository.VipManage
             return this.ExecuteTransactionSql(sql, obj);
 
         }
+        #endregion
 
-        public string GetNewVipCode()
+        #region 查询
+        /// <summary>
+        /// 查询最新的会员编号
+        /// </summary>
+        /// <returns></returns>
+        public string QueryNewVipCode()
         {
             string sql = @"SELECT ISNULL(MAX(CAST((SUBSTRING([VipCode],4,LEN([VipCode])-3)) AS INT)),0)+1 FROM [IndexCRM].[dbo].[Vip]";
             return this.ExecuteScalarSql(sql).ToString();
         }
 
-        public bool GetVipIsExist(string openId)
+        /// <summary>
+        /// 查询会员信息
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public Vip QueryVipByOpenId(string openId)
+        {
+            string sql = @"SELECT b.*FROM[IndexCRM].[dbo].[VipSource] a
+                JOIN[IndexCRM].[dbo].[Vip] b ON a.VipId=b.VipId
+                WHERE a.SourceId=@SourceId";
+
+            object obj = new
+            {
+                SourceId = openId
+            };
+
+            return this.ExecuteSql<Vip>(sql, obj);
+        }
+
+        /// <summary>
+        /// 查询会员是否存在
+        /// </summary>
+        /// <param name="openId"></param>
+        /// <returns></returns>
+        public bool QueryVipIsExist(string openId)
         {
             string sql = @"SELECT ISNULL((SELECT TOP(1) 1 FROM [IndexCRM].[dbo].[VipSource] WHERE [SourceId]=@SourceId), 0)";
 
@@ -55,19 +92,6 @@ namespace Repository.VipManage
 
             return this.ExecuteScalarSql(sql, obj).ToString() != "0";
         }
-
-        public string GetVipIdByOpenId(string openId)
-        {
-            string sql = @"SELECT b.VipId FROM [IndexCRM].[dbo].[VipSource] a
-                JOIN [IndexCRM].[dbo].[Vip] b on a.VipId=b.VipId
-                WHERE a.SourceId=@SourceId";
-
-            object obj = new
-            {
-                SourceId = openId
-            };
-
-            return this.ExecuteScalarSql(sql, obj).ToString();
-        }
+        #endregion
     }
 }

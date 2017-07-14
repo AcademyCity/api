@@ -111,9 +111,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
-    <Compile Include="Controllers\Vip\LoginController.cs" />
     <Compile Include="Controllers\Vip\VipController.cs" />
-    <Compile Include="Controllers\WeChatController.cs" />
+    <Compile Include="Controllers\Login\WeChatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

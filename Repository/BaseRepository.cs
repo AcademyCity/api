@@ -28,11 +28,11 @@ namespace Repository
         /// <param name="sql">sql语句</param>
         /// <param name="obj">参数对象</param>
         /// <returns>返回查询结果</returns>
-        public object ExecuteSql(string sql, object obj)
+        public T ExecuteSql<T>(string sql, object obj)
         {
             using (var connection = GetConnection())
             {
-                var model = connection.Query<object>(sql, obj).FirstOrDefault();
+                var model = connection.Query<T>(sql, obj).FirstOrDefault();
                 connection.Close();
                 return model;
             }

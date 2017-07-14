@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace Application.Login
+namespace Application
 {
     public class LoginService
     {
@@ -37,10 +38,10 @@ namespace Application.Login
                 return true;
             }
 
-            if (_vipRepository.GetVipIsExist(openId))
+            if (_vipRepository.QueryVipIsExist(openId))
             {
-                var vipId = _vipRepository.GetVipIdByOpenId(openId);
-                _redisManage.StringSet(openId, vipId, TimeSpan.FromSeconds(600));
+                var vip = _vipRepository.QueryVipByOpenId(openId);
+                _redisManage.StringSet(openId, JsonConvert.SerializeObject(vip), TimeSpan.FromSeconds(600));
                 return true;
             }
 
@@ -66,12 +67,13 @@ namespace Application.Login
                 //生产会员Id
                 v.VipId = Guid.NewGuid().ToString();
                 //生成会员编号
-                v.VipCode = _vipRepository.GetNewVipCode();
+                v.VipCode = _vipRepository.QueryNewVipCode();
                 v.VipCode = "012" + v.VipCode.PadLeft(10 - v.VipCode.Length, '0');
 
                 if (_vipRepository.InsertVip(v, openId))
                 {
-                    _redisManage.StringSet(openId, v.VipId, TimeSpan.FromSeconds(600));
+                    var vip = _vipRepository.QueryVipByOpenId(openId);
+                    _redisManage.StringSet(openId, JsonConvert.SerializeObject(vip), TimeSpan.FromSeconds(600));
                     return true;
                 }
                 else

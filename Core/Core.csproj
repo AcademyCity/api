@@ -90,8 +90,8 @@
     <Compile Include="Authorize\RequestAuthorizeAttribute.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Log.cs" />
-    <Compile Include="Entity\Message.cs" />
     <Compile Include="Entity\Model1.cs" />
+    <Compile Include="Entity\Result.cs" />
     <Compile Include="Entity\Vip.cs" />
     <Compile Include="Entity\VipLoginLog.cs" />
     <Compile Include="Entity\VipSource.cs" />

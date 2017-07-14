@@ -13,7 +13,7 @@ using Senparc.Weixin.HttpUtility;
 using Senparc.Weixin.MP.AdvancedAPIs;
 using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.Exceptions;
-using Application.Login;
+using Application;
 
 namespace WebApi.Controllers
 {
