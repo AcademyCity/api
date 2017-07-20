@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Security;
+using Core.Common;
 using Newtonsoft.Json;
 using Core.Entity;
 
@@ -53,17 +54,26 @@ namespace Core.Authorize
         //校验用户名密码（正式环境中应该是数据库校验）
         private bool ValidateTicket(string encryptTicket)
         {
-            //解密Ticket
-            string openId = FormsAuthentication.Decrypt(encryptTicket).UserData;
+            try
+            {
+                //解密Ticket
+                string openId = FormsAuthentication.Decrypt(encryptTicket).UserData;
 
-            if (openId == "")
-            {
-                return true;
+                if (openId == "")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch(Exception e)
             {
+                Log.Error("错误");
                 return false;
             }
+            
         }
 
         protected override void HandleUnauthorizedRequest(HttpActionContext filterContext)

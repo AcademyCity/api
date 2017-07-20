@@ -14,6 +14,7 @@ namespace WebApi.Controllers
     {
 
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult GetVip(string openId)
         {
             return Json<Result>(new Result { success = true, message = "xxx" });

@@ -20,6 +20,5 @@ namespace WebApi.Controllers
         {
             _redisManager = new RedisManage();
         }
-
     }
 }
