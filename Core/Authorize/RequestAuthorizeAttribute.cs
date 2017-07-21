@@ -70,7 +70,7 @@ namespace Core.Authorize
             }
             catch(Exception e)
             {
-                Log.Error("错误");
+                Log.Error("xx");
                 return false;
             }
             

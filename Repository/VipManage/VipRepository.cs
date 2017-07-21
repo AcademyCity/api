@@ -28,7 +28,7 @@ namespace Repository.VipManage
                 VALUES (@VipId,@SourceName,@SourceId)";
             object obj = new
             {
-                VipId = v.VipId,
+                VipId = v.VipId.ToUpper(),
                 VipCode = v.VipCode,
                 VipName = v.VipName,
                 VipSex = v.VipSex,
