@@ -1,5 +1,4 @@
-﻿using Core.Authorize;
-using Core.ExceptionHandler;
+﻿using Core.ExceptionHandler;
 using Core.Redis;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using WebApi.Authorize;
 
 namespace WebApi.Controllers
 {

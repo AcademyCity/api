@@ -7,17 +7,31 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Application;
 
 namespace WebApi.Controllers
 {
     public class VipController : BaseApiController
     {
 
+
+        VipService _vipService;
+
+        public VipController()
+        {
+            _vipService = new VipService();
+        }
+
         [HttpGet]
-        [AllowAnonymous]
         public IHttpActionResult GetVip(string openId)
         {
-            return Json<Result>(new Result { success = true, message = "xxx" });
+            return Json<Result>(new Result { success = true, message = _vipService.GetVipInfo(openId) });
+        }
+
+        [HttpOptions]
+        public string Options()
+        {
+            return null; // HTTP 200 response with empty body
         }
     }
 }

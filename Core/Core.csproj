@@ -87,7 +87,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorize\RequestAuthorizeAttribute.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Entity\Model1.cs" />

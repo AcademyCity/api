@@ -24,7 +24,7 @@ namespace WebApi.Controllers
 
         public WeChatController()
         {
-            _loginService = new LoginService();
+            _loginService = new LoginService(); 
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// OAuthScope.snsapi_base方式回调
+        /// OAuthScope.snsapi_userinfo方式回调
         /// </summary>
         /// <param name="code"></param>
         /// <param name="state"></param>

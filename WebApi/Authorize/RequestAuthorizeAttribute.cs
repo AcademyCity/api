@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Security;
+using Application;
 using Core.Common;
 using Newtonsoft.Json;
 using Core.Entity;
 
-namespace Core.Authorize
+namespace WebApi.Authorize
 {
     /// <summary>
     /// 自定义此特性用于接口的身份验证
@@ -25,7 +26,12 @@ namespace Core.Authorize
             //是否允许匿名访问，则返回未验证401
             var attributes = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().OfType<AllowAnonymousAttribute>();
             bool isAnonymous = attributes.Any(a => a is AllowAnonymousAttribute);
+            Log.Info("验证开始！");
             if (isAnonymous)
+            {
+                base.OnAuthorization(actionContext);
+            }
+            else
             {
                 //从http请求的头里面获取身份验证信息，验证是否是请求发起方的ticket
                 var authorization = actionContext.Request.Headers.Authorization;
@@ -33,8 +39,11 @@ namespace Core.Authorize
                 {
                     //解密用户ticket,并校验用户名密码是否匹配
                     var encryptTicket = authorization.Parameter;
-                    if (ValidateTicket(encryptTicket))
+                    LoginService _loginService = new LoginService();
+                    Log.Info("请求头验证开始！" + encryptTicket);
+                    if (_loginService.WeChatLogin(encryptTicket))
                     {
+                        Log.Info("请求头验证通过！"+ encryptTicket);
                         base.IsAuthorized(actionContext);
                     }
                     else
@@ -44,30 +53,8 @@ namespace Core.Authorize
                 }
                 else
                 {
-                    base.OnAuthorization(actionContext);
+                    HandleUnauthorizedRequest(actionContext);
                 }
-            }
-            else
-            {
-                HandleUnauthorizedRequest(actionContext);
-            }
-        }
-
-
-
-        //校验用户名密码（正式环境中应该是数据库校验）
-        private bool ValidateTicket(string encryptTicket)
-        {
-            //解密Ticket
-            string openId = FormsAuthentication.Decrypt(encryptTicket).UserData;
-
-            if (openId == "")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 
