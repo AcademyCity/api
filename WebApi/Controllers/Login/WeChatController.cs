@@ -21,10 +21,12 @@ namespace WebApi.Controllers
     {
 
         LoginService _loginService;
+        VipService _vipService;
 
         public WeChatController()
         {
-            _loginService = new LoginService(); 
+            _loginService = new LoginService();
+            _vipService = new VipService();
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace WebApi.Controllers
             var BackUrl = Config.BackUrl + backUrl;
             string WeChatUrl = OAuthApi.GetAuthorizeUrl(Config.AppId, BackUrl, state, OAuthScope.snsapi_base);
 
-            return Json<Result>(new Result { success = false, message = WeChatUrl });
+            return Json(new { success = false, message = WeChatUrl });
         }
 
         /// <summary>
@@ -69,19 +71,20 @@ namespace WebApi.Controllers
             {
                 if (_loginService.WeChatLogin(result.openid))
                 {
-                    return Json<Result>(new Result { success = true, message = new Result { success = true, message = result.openid } });
+                    var vip = _vipService.GetVipInfo(result.openid);
+                    return Json(new { success = true, message = new { success = true, message = new { token = Utils.MD5Encrypt(result.openid), openId = result.openid, vipCode = vip.VipCode } } });
                 }
                 else
                 {
                     state = "UserInfo-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
                     var BackUrl = Config.BackUrl + backUrl;
                     string WeChatUrl = OAuthApi.GetAuthorizeUrl(Config.AppId, BackUrl, state, OAuthScope.snsapi_userinfo);
-                    return Json<Result>(new Result { success = true, message = new Result { success = false, message = WeChatUrl } });
+                    return Json(new { success = true, message = new { success = false, message = WeChatUrl } });
                 }
             }
             else
             {
-                return Json<Result>(new Result { success = false, message = "错误：" + result.errmsg });
+                return Json(new { success = false, message = "错误：" + result.errmsg });
             }
         }
 
@@ -97,14 +100,14 @@ namespace WebApi.Controllers
         {
             if (string.IsNullOrEmpty(code))
             {
-                return Json<Result>(new Result { success = false, message = "您拒绝了授权！" });
+                return Json(new { success = false, message = "您拒绝了授权！" });
             }
 
 
             var result = OAuthApi.GetAccessToken(Config.AppId, Config.Secret, code);
             if (result.errcode != Senparc.Weixin.ReturnCode.请求成功)
             {
-                return Json<Result>(new Result { success = false, message = "错误：" + result.errmsg });
+                return Json(new { success = false, message = "错误：" + result.errmsg });
             }
 
             try
@@ -124,16 +127,17 @@ namespace WebApi.Controllers
 
                 if (_loginService.WeChatRegist(v, result.openid))
                 {
-                    return Json<Result>(new Result { success = true, message = result.openid });
+                    var vip = _vipService.GetVipInfo(result.openid);
+                    return Json(new { success = true, message = new { token = Utils.MD5Encrypt(result.openid), openId = result.openid, vipCode = vip.VipCode } });
                 }
                 else
                 {
-                    return Json<Result>(new Result { success = false, message = "错误：注册失败！" });
+                    return Json(new { success = false, message = "错误：注册失败！" });
                 }
             }
             catch (ErrorJsonResultException)
             {
-                return Json<Result>(new Result { success = false, message = "错误：" + result.errmsg });
+                return Json(new { success = false, message = "错误：" + result.errmsg });
             }
         }
     }

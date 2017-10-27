@@ -12,6 +12,7 @@ using Application;
 using Core.Common;
 using Newtonsoft.Json;
 using Core.Entity;
+using Core.Redis;
 
 namespace WebApi.Authorize
 {
@@ -38,18 +39,18 @@ namespace WebApi.Authorize
                 if ((authorization != null) && (authorization.Parameter != null))
                 {
                     //解密用户ticket,并校验用户名密码是否匹配
-                    var encryptTicket = authorization.Parameter;
-                    LoginService _loginService = new LoginService();
-                    Log.Info("请求头验证开始！" + encryptTicket);
-                    if (_loginService.WeChatLogin(encryptTicket))
+                    string encryptTicket = authorization.Parameter;
+                    string openId = encryptTicket.Substring(encryptTicket.Length - 32);
+                    string token = encryptTicket.Substring(encryptTicket.Length - 32, encryptTicket.Length);
+                          
+                    if (token == Utils.MD5Encrypt(openId))
                     {
-                        Log.Info("请求头验证通过！"+ encryptTicket);
                         base.IsAuthorized(actionContext);
                     }
                     else
                     {
                         HandleUnauthorizedRequest(actionContext);
-                    }
+                    }           
                 }
                 else
                 {
@@ -64,7 +65,7 @@ namespace WebApi.Authorize
 
             var response = filterContext.Response = filterContext.Response ?? new HttpResponseMessage();
             response.StatusCode = HttpStatusCode.Forbidden;
-            response.Content = new StringContent(JsonConvert.SerializeObject(new Result { success = false, message = "服务端拒绝访问：你没有权限，或者掉线了" }),
+            response.Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务端拒绝访问：你没有权限，或者掉线了" }),
                 Encoding.UTF8, "application/json");
         }
     }

@@ -128,6 +128,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Authorize\RequestAuthorizeAttribute.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\Coupon\CouponController.cs" />
+    <Compile Include="Controllers\Point\PointController.cs" />
     <Compile Include="Controllers\Vip\VipController.cs" />
     <Compile Include="Controllers\Login\WeChatController.cs" />
     <Compile Include="Global.asax.cs">
@@ -148,8 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Coupon\" />
-    <Folder Include="Controllers\Point\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

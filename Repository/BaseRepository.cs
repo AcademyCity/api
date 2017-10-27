@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -28,11 +29,43 @@ namespace Repository
         /// <param name="sql">sql语句</param>
         /// <param name="obj">参数对象</param>
         /// <returns>返回查询结果</returns>
-        public T ExecuteSql<T>(string sql, object obj)
+        protected T ExecuteSql<T>(string sql, object obj)
         {
             using (var connection = GetConnection())
             {
                 var model = connection.Query<T>(sql, obj).FirstOrDefault();
+                connection.Close();
+                return model;
+            }
+        }
+
+        /// <summary>
+        /// 执行查询sql
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="obj">参数对象</param>
+        /// <returns>返回查询结果</returns>
+        protected List<T> ExecuteSqlToList<T>(string sql, object obj)
+        {
+            using (var connection = GetConnection())
+            {
+                var model = connection.Query<T>(sql, obj).ToList();
+                connection.Close();
+                return model;
+            }
+        }
+
+        /// <summary>
+        /// 执行查询sql
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="obj">参数对象</param>
+        /// <returns>返回查询结果</returns>
+        protected List<T> ExecuteSqlToList<T>(string sql)
+        {
+            using (var connection = GetConnection())
+            {
+                var model = connection.Query<T>(sql).ToList();
                 connection.Close();
                 return model;
             }
@@ -44,7 +77,7 @@ namespace Repository
         /// <param name="sql">sql语句</param>
         /// <param name="obj">参数对象</param>
         /// <returns>返回查询结果</returns>
-        public object ExecuteScalarSql(string sql, object obj = null)
+        protected object ExecuteScalarSql(string sql, object obj = null)
         {
             using (var connection = GetConnection())
             {
@@ -69,7 +102,7 @@ namespace Repository
         /// <param name="sql">sql语句</param>
         /// <param name="obj">参数对象</param>
         /// <returns>返回影响行数</returns>
-        public bool ExecuteTransactionSql(string sql, object obj)
+        protected bool ExecuteTransactionSql(string sql, object obj)
         {
             using (var connection = GetConnection())
             {

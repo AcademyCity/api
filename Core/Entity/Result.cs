@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Core.Entity
 {
-    public class Result
-    {
-        public bool success { get; set; }
+    //public class Result
+    //{
+    //    public bool success { get; set; }
 
-        public dynamic message { get; set; }
-    }
+    //    public dynamic message { get; set; }
+    //}
 }

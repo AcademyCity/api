@@ -19,13 +19,13 @@ namespace Core.ExceptionHandler
         {
             //1.异常日志记录
             Log.Error(actionExecutedContext.Exception, actionExecutedContext.Exception.Message.ToString() +
-                " -> " ); //+actionExecutedContext.Exception.StackTrace.ToString()
+                " -> "); //+actionExecutedContext.Exception.StackTrace.ToString()
             Log.Warn(actionExecutedContext.Exception, actionExecutedContext.Exception.Message.ToString() +
                 " -> " + actionExecutedContext.Exception.StackTrace.ToString());
 
             actionExecutedContext.Response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(new Result { success = false, message = "服务器发生错误！请联系相关人员..." }))
+                Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务器发生错误！请联系相关人员..." }))
             };
 
             base.OnException(actionExecutedContext);

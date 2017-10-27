@@ -19,13 +19,22 @@ namespace Repository.VipManage
         /// <returns></returns>
         public bool InsertVip(Vip v, string openId)
         {
+            //添加Vip
             string sql = @"INSERT INTO [IndexCRM].[dbo].[Vip]
                 ([VipId],[VipCode],[VipName],[VipSex],[VipBirthday],[VipPhone],[VipCountry],[VipProvince],[VipCity],[VipHeadImg])  
-                VALUES (@VipId,@VipCode,@VipName,@VipSex,@VipBirthday,@VipPhone,@VipCountry,@VipProvince,@VipCity,@VipHeadImg)";
-
+                VALUES 
+                (@VipId,@VipCode,@VipName,@VipSex,@VipBirthday,@VipPhone,@VipCountry,@VipProvince,@VipCity,@VipHeadImg) ";
+            //添加Vip来源
             sql += @"INSERT INTO [IndexCRM].[dbo].[VipSource]
                 ([VipId],[SourceName],[SourceId]) 
-                VALUES (@VipId,@SourceName,@SourceId)";
+                VALUES 
+                (@VipId,@SourceName,@SourceId) ";
+            //初始化Vip积分
+            sql += @"INSERT INTO [IndexCRM].[dbo].[Point]
+                ([VipId],[Point]) 
+                VALUES 
+                (@VipId,0)";
+
             object obj = new
             {
                 VipId = v.VipId.ToUpper(),
@@ -53,7 +62,8 @@ namespace Repository.VipManage
         /// <returns></returns>
         public string QueryNewVipCode()
         {
-            string sql = @"SELECT ISNULL(MAX(CAST((SUBSTRING([VipCode],4,LEN([VipCode])-3)) AS INT)),0)+1 FROM [IndexCRM].[dbo].[Vip]";
+            string sql = @"SELECT ISNULL(MAX(CAST((SUBSTRING([VipCode],4,LEN([VipCode])-3)) AS INT)),0)+1 
+                FROM [IndexCRM].[dbo].[Vip]";
             return this.ExecuteScalarSql(sql).ToString();
         }
 
@@ -64,7 +74,8 @@ namespace Repository.VipManage
         /// <returns></returns>
         public Vip QueryVipByOpenId(string openId)
         {
-            string sql = @"SELECT b.*FROM[IndexCRM].[dbo].[VipSource] a
+            string sql = @"SELECT b.*
+                FROM[IndexCRM].[dbo].[VipSource] a
                 JOIN[IndexCRM].[dbo].[Vip] b ON a.VipId=b.VipId
                 WHERE a.SourceId=@SourceId";
 
@@ -83,7 +94,9 @@ namespace Repository.VipManage
         /// <returns></returns>
         public bool QueryVipIsExist(string openId)
         {
-            string sql = @"SELECT ISNULL((SELECT TOP(1) 1 FROM [IndexCRM].[dbo].[VipSource] WHERE [SourceId]=@SourceId), 0)";
+            string sql = @"SELECT ISNULL((SELECT TOP(1) 1 
+                FROM [IndexCRM].[dbo].[VipSource] 
+                WHERE [SourceId]=@SourceId), 0)";
 
             object obj = new
             {

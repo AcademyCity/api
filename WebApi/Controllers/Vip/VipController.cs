@@ -23,15 +23,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetVip(string openId)
+        public IHttpActionResult GetVip(string openId = "")
         {
-            return Json<Result>(new Result { success = true, message = _vipService.GetVipInfo(openId) });
-        }
-
-        [HttpOptions]
-        public string Options()
-        {
-            return null; // HTTP 200 response with empty body
+            var vip = _vipService.GetVipInfo(openId);
+            if (vip != null)
+            {
+                return Json(new { success = true, message = vip });
+            }
+            return Json(new { success = false, message = "未注册，请注册后登录！" });
         }
     }
 }
