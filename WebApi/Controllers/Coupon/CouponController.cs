@@ -51,9 +51,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetShopCoupon()
+        public IHttpActionResult GetShowCoupon()
         {
-            var coupon = _couponService.GetShopCoupon();
+            var coupon = _couponService.GetShowCoupon();
 
             if (coupon != null)
             {
@@ -63,9 +63,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetShopCoupon(string couponConfigId = "")
+        public IHttpActionResult GetShowCoupon(string couponConfigId = "")
         {
-            var coupon = _couponService.GetShopCoupon(couponConfigId);
+            var coupon = _couponService.GetShowCoupon(couponConfigId);
 
             if (coupon != null)
             {
@@ -79,7 +79,7 @@ namespace WebApi.Controllers
         public IHttpActionResult ExChangeCoupon(string openId = "", string couponConfigId = "")
         {
             var vip = _vipService.GetVipInfo(openId);
-            var coupon = _couponService.GetShopCoupon(couponConfigId);
+            var coupon = _couponService.GetShowCoupon(couponConfigId);
 
             if (coupon != null && vip != null)
             {

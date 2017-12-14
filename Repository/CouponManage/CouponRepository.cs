@@ -89,11 +89,11 @@ namespace Repository.CouponManage
         /// </summary>
         /// <param name="VipId"></param>
         /// <returns></returns>
-        public List<CouponDto> QueryCouponIsShop()
+        public List<CouponDto> QueryCouponIsShow()
         {
             string sql = @"SELECT [CouponConfigId],[CouponName],[CouponImg],[CouponPoint],[ValidityMode],[StartTime],[EndTime],[EffectDate],[ValidDate]
                 FROM [IndexCRM].[dbo].[CouponConfig] 
-                WHERE [IsShop]=1 AND [IsDelete]=0
+                WHERE [IsShow]=1 AND [IsDelete]=0
                 ORDER BY [Sort]";
 
             return this.ExecuteSqlToList<CouponDto>(sql);
@@ -108,7 +108,7 @@ namespace Repository.CouponManage
         {
             string sql = @"SELECT [CouponConfigId],[CouponName],[CouponNum],[CouponExplain],[CouponImg],[CouponPoint],[ValidityMode],[StartTime],[EndTime],[EffectDate],[ValidDate]
                 FROM [IndexCRM].[dbo].[CouponConfig] 
-                WHERE [IsShop]=1 AND [IsDelete]=0 AND [CouponConfigId]=@CouponConfigId
+                WHERE [IsShow]=1 AND [IsDelete]=0 AND [CouponConfigId]=@CouponConfigId
                 ORDER BY [Sort]";
 
             object obj = new
@@ -117,6 +117,26 @@ namespace Repository.CouponManage
             };
 
             return this.ExecuteSql<CouponDto>(sql, obj);
+        }
+
+        /// <summary>
+        /// 查询会员优惠券
+        /// </summary>
+        /// <param name="VipId"></param>
+        /// <returns></returns>
+        public string GetCouponHint(int vipPoint)
+        {
+            string sql = @"SELECT TOP 1 [CouponName]
+                FROM [IndexCRM].[dbo].[CouponConfig] 
+                WHERE [IsShow]=1 AND [IsDelete]=0 AND [CouponPoint]<=@vipPoint
+                ORDER BY [CouponPoint] DESC";
+
+            object obj = new
+            {
+                vipPoint = vipPoint
+            };
+
+            return this.ExecuteScalarSql(sql, obj).ToString();
         }
 
         /// <summary>

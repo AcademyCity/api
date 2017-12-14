@@ -41,7 +41,7 @@ namespace Core.Entity
 
         public int? Sort { get; set; }
 
-        public bool? IsShop { get; set; }
+        public bool? IsShow { get; set; }
 
         public bool? IsDelete { get; set; }
 

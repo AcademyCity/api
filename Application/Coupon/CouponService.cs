@@ -55,19 +55,19 @@ namespace Application
         /// </summary>
         /// <param name="vipId"></param>
         /// <returns></returns>
-        public List<CouponDto> GetShopCoupon()
+        public List<CouponDto> GetShowCoupon()
         {
-            var ShopCouponList = _couponRepository.QueryCouponIsShop();
-            foreach (var item in ShopCouponList)
+            var ShowCouponList = _couponRepository.QueryCouponIsShow();
+            foreach (var item in ShowCouponList)
             {
                 var count = _couponRepository.QueryCouponCount(item.CouponConfigId);
                 var couponNum = item.CouponNum - int.Parse(count);
                 if (couponNum <= 0)
                 {
-                    ShopCouponList.Remove(item);
+                    ShowCouponList.Remove(item);
                 }
             }
-            return ShopCouponList;
+            return ShowCouponList;
         }
 
         /// <summary>
@@ -75,9 +75,19 @@ namespace Application
         /// </summary>
         /// <param name="vipId"></param>
         /// <returns></returns>
-        public CouponDto GetShopCoupon(string couponConfigId)
+        public CouponDto GetShowCoupon(string couponConfigId)
         {
             return _couponRepository.QueryCouponByCouponConfigId(couponConfigId);
+        }
+
+        /// <summary>
+        /// 获取提示优惠券
+        /// </summary>
+        /// <param name="vipId"></param>
+        /// <returns></returns>
+        public string GetCouponHint(int vipPoint)
+        {
+            return _couponRepository.GetCouponHint(vipPoint);
         }
 
         /// <summary>

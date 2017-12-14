@@ -12,15 +12,17 @@ using Application;
 namespace WebApi.Controllers
 {
     [AllowAnonymous]
-    public class PointController : BaseApiController
+    public class PointController : ApiController
     {
         VipService _vipService;
         PointService _pointService;
+        CouponService _couponService;
 
         public PointController()
         {
             _vipService = new VipService();
             _pointService = new PointService();
+            _couponService = new CouponService();
         }
 
         [HttpGet]
@@ -31,7 +33,8 @@ namespace WebApi.Controllers
             if (point != null)
             {
                 var pointRecord = _pointService.GetVipPointRecord(vip);
-                return Json(new { success = true, message = new { score = point.VipPoint, pointRecord = pointRecord } });
+                var couponName = _couponService.GetCouponHint((int)point.VipPoint);
+                return Json(new { success = true, message = new { score = point.VipPoint, pointRecord = pointRecord , couponName = couponName } });
             }
             return Json(new { success = false, message = "发生错误！" });
         }

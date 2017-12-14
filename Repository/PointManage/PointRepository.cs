@@ -49,7 +49,7 @@ namespace Repository.PointManage
         /// <returns></returns>
         public Point QueryPointByVipId(string VipId)
         {
-            string sql = @"SELECT [Score] 
+            string sql = @"SELECT [VipPoint] 
                 FROM [IndexCRM].[dbo].[Point] 
                 WHERE VipId=@VipId";
 
@@ -68,7 +68,7 @@ namespace Repository.PointManage
         /// <returns></returns>
         public List<PointRecord> QueryPointRecordByVipId(string VipId)
         {
-            string sql = @"SELECT [ScoreRecord],[PointExplain],[AddTime] 
+            string sql = @"SELECT [PointChange],[PointExplain],[AddTime] 
                 FROM [IndexCRM].[dbo].[PointRecord] 
                 WHERE VipId=@VipId 
                 ORDER BY AddTime DESC";
