@@ -21,11 +21,6 @@ namespace WebApi.Authorize
     /// </summary>
     public class RequestAuthorizeAttribute : AuthorizeAttribute
     {
-        private RedisManage _redisManage;
-        public RequestAuthorizeAttribute()
-        {
-            _redisManage = new RedisManage(0);
-        }
         //重写基类的验证方式，加入我们自定义的Ticket验证
         public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
@@ -50,6 +45,7 @@ namespace WebApi.Authorize
 
                     if (token == Utils.MD5Encrypt(openId))
                     {
+                        RedisManage _redisManage= new RedisManage(0);
                         var IsExist = !string.IsNullOrEmpty(_redisManage.StringGet(openId));
                         if (IsExist)
                         {
@@ -79,7 +75,7 @@ namespace WebApi.Authorize
 
             var response = filterContext.Response = filterContext.Response ?? new HttpResponseMessage();
             response.StatusCode = HttpStatusCode.Forbidden;
-            response.Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务端拒绝访问：你没有权限，或者掉线了" }),
+            response.Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务端拒绝访问：没有权限或者超时访问" }),
                 Encoding.UTF8, "application/json");
         }
     }

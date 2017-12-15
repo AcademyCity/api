@@ -61,10 +61,13 @@ namespace Application
             foreach (var item in ShowCouponList)
             {
                 var count = _couponRepository.QueryCouponCount(item.CouponConfigId);
-                var couponNum = item.CouponNum - int.Parse(count);
-                if (couponNum <= 0)
+                if (item.CouponNum != 0)
                 {
-                    ShowCouponList.Remove(item);
+                    item.CouponNum = item.CouponNum - int.Parse(count);
+                    if (item.CouponNum <= 0)
+                    {
+                        item.CouponNum = -1;
+                    }
                 }
             }
             return ShowCouponList;
@@ -105,8 +108,8 @@ namespace Application
                 if (couponNum > 0)
                 {
                     lock (locker)
-                    {           
-                        string couponCode= Utils.GetCodeNo();
+                    {
+                        string couponCode = Utils.GetCodeNo();
                         return _couponRepository.ExChangeCoupon(vipId, couponConfigId, couponCode);
                     }
                 }

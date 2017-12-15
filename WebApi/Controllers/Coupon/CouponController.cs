@@ -63,7 +63,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetShowCoupon(string couponConfigId = "")
+        public IHttpActionResult GetShowCouponInfo(string couponConfigId = "")
         {
             var coupon = _couponService.GetShowCoupon(couponConfigId);
 

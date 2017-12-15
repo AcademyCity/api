@@ -12,7 +12,7 @@ using Application;
 namespace WebApi.Controllers
 {
     [AllowAnonymous]
-    public class PointController : ApiController
+    public class PointController : BaseApiController
     {
         VipService _vipService;
         PointService _pointService;
@@ -30,6 +30,7 @@ namespace WebApi.Controllers
         {
             var vip = _vipService.GetVipInfo(openId);
             var point = _pointService.GetVipPoint(vip);
+
             if (point != null)
             {
                 var pointRecord = _pointService.GetVipPointRecord(vip);
