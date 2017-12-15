@@ -22,15 +22,15 @@ namespace WebApi.Controllers
             _vipService = new VipService();
         }
 
-        [HttpGet]
-        public IHttpActionResult GetVip(string openId = "")
-        {
-            var vip = _vipService.GetVipInfo(openId);
-            if (vip != null)
-            {
-                return Json(new { success = true, message = vip });
-            }
-            return Json(new { success = false, message = "未注册，请注册后登录！" });
-        }
+        //[HttpGet]
+        //public IHttpActionResult GetVip(string openId = "")
+        //{
+        //    var vip = _vipService.GetVipInfo(openId);
+        //    if (vip != null)
+        //    {
+        //        return Json(new { success = true, message = vip });
+        //    }
+        //    return Json(new { success = false, message = "未注册，请注册后登录！" });
+        //}
     }
 }

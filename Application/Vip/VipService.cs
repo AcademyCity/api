@@ -38,6 +38,8 @@ namespace Application
             if (_vipRepository.QueryVipIsExist(openId))
             {
                 var vip = _vipRepository.QueryVipByOpenId(openId);
+                //用户签名
+                vip.Sign = Guid.NewGuid().ToString();
                 _redisManage.StringSet(openId, JsonConvert.SerializeObject(vip), TimeSpan.FromSeconds(600));
                 return vip;
             }

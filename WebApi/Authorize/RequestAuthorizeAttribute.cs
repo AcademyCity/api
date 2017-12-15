@@ -21,6 +21,12 @@ namespace WebApi.Authorize
     /// </summary>
     public class RequestAuthorizeAttribute : AuthorizeAttribute
     {
+        private RedisManage _redisManage;
+        public RequestAuthorizeAttribute()
+        {
+            _redisManage = new RedisManage(0);
+        }
+
         //重写基类的验证方式，加入我们自定义的Ticket验证
         public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
@@ -43,22 +49,24 @@ namespace WebApi.Authorize
                     string openId = encryptTicket.Substring(encryptTicket.Length - 32);
                     string token = encryptTicket.Substring(encryptTicket.Length - 32, encryptTicket.Length);
 
-                    if (token == Utils.MD5Encrypt(openId))
+                    var vip = _redisManage.StringGet(openId);
+                    var IsExist = !string.IsNullOrEmpty(vip);
+                    if (IsExist)
                     {
-                        RedisManage _redisManage= new RedisManage(0);
-                        var IsExist = !string.IsNullOrEmpty(_redisManage.StringGet(openId));
-                        if (IsExist)
+                        var vipObj = JsonConvert.DeserializeObject<Vip>(vip);
+                        if (token == Utils.MD5Encrypt(openId + vipObj.Sign))
                         {
                             base.IsAuthorized(actionContext);
                         }
                         else
                         {
+                            //非法访问
                             base.IsAuthorized(actionContext);
                         }
-                        
                     }
                     else
                     {
+                        //超时
                         HandleUnauthorizedRequest(actionContext);
                     }
                 }

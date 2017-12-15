@@ -49,5 +49,8 @@ namespace Core.Entity
 
         [StringLength(40)]
         public string ModifyMan { get; set; }
+
+        [StringLength(40)]
+        public string Sign { get; set; }
     }
 }
