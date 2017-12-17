@@ -192,11 +192,11 @@ namespace Repository.CouponManage
                 (@CouponConfigId, @VipId, @CouponCode, @StartTime, @EndTime, '积分兑换', 0) ";
 
             sql += @"UPDATE[IndexCRM].[dbo].[Point]
-                SET[Score] = [Score] - @Score
+                SET [VipPoint] = [VipPoint] - @Score
                 WHERE[VipId] = @VipId ";
 
             sql += @"INSERT INTO [IndexCRM].[dbo].[PointRecord]
-                ([VipId],[ScoreRecord],[PointExplain],[PosNo])  
+                ([VipId],[PointChange],[PointExplain],[PosNo])  
                 VALUES
                 (@VipId,-@Score,'兑换优惠券','') ";
 

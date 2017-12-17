@@ -46,8 +46,8 @@ namespace WebApi.Authorize
                 {
                     //解密用户ticket,并校验用户名密码是否匹配
                     string encryptTicket = authorization.Parameter;
-                    string openId = encryptTicket.Substring(encryptTicket.Length - 32);
-                    string token = encryptTicket.Substring(encryptTicket.Length - 32, encryptTicket.Length);
+                    string openId = encryptTicket.Substring(0,encryptTicket.Length - 32);
+                    string token = encryptTicket.Substring(encryptTicket.Length - 32);
 
                     var vip = _redisManage.StringGet(openId);
                     var IsExist = !string.IsNullOrEmpty(vip);
@@ -61,13 +61,13 @@ namespace WebApi.Authorize
                         else
                         {
                             //非法访问
-                            base.IsAuthorized(actionContext);
+                            HandleUnauthorizedRequest(actionContext);
                         }
                     }
                     else
                     {
                         //超时
-                        HandleUnauthorizedRequest(actionContext);
+                        HandleTimeoutRequest(actionContext);
                     }
                 }
                 else
@@ -83,7 +83,17 @@ namespace WebApi.Authorize
 
             var response = filterContext.Response = filterContext.Response ?? new HttpResponseMessage();
             response.StatusCode = HttpStatusCode.Forbidden;
-            response.Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务端拒绝访问：没有权限或者超时访问" }),
+            response.Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务端拒绝访问：没有权限" }),
+                Encoding.UTF8, "application/json");
+        }
+
+        protected void HandleTimeoutRequest(HttpActionContext filterContext)
+        {
+            base.HandleUnauthorizedRequest(filterContext);
+
+            var response = filterContext.Response = filterContext.Response ?? new HttpResponseMessage();
+            response.StatusCode = HttpStatusCode.OK;
+            response.Content = new StringContent(JsonConvert.SerializeObject(new { success = false, message = "服务端拒绝访问：超时访问" }),
                 Encoding.UTF8, "application/json");
         }
     }

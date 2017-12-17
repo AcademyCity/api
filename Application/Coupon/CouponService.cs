@@ -11,6 +11,7 @@ using Core.Entity.Dto;
 using Newtonsoft.Json;
 using Repository.CouponManage;
 using Repository.PointManage;
+using System.Configuration;
 
 namespace Application
 {
@@ -60,6 +61,7 @@ namespace Application
             var ShowCouponList = _couponRepository.QueryCouponIsShow();
             foreach (var item in ShowCouponList)
             {
+                item.CouponImg = ConfigurationManager.AppSettings["ImgSiteAddress"] + item.CouponImg;
                 var count = _couponRepository.QueryCouponCount(item.CouponConfigId);
                 if (item.CouponNum != 0)
                 {
@@ -80,7 +82,10 @@ namespace Application
         /// <returns></returns>
         public CouponDto GetShowCoupon(string couponConfigId)
         {
-            return _couponRepository.QueryCouponByCouponConfigId(couponConfigId);
+            var ShowCoupon = _couponRepository.QueryCouponByCouponConfigId(couponConfigId);
+            ShowCoupon.CouponImg = ConfigurationManager.AppSettings["ImgSiteAddress"] + ShowCoupon.CouponImg;
+            ShowCoupon.CouponExplain = ShowCoupon.CouponExplain.Replace("\n", "<br>");
+            return ShowCoupon;
         }
 
         /// <summary>

@@ -51,6 +51,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult GetShowCoupon()
         {
             var coupon = _couponService.GetShowCoupon();
@@ -63,6 +64,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult GetShowCouponInfo(string couponConfigId = "")
         {
             var coupon = _couponService.GetShowCoupon(couponConfigId);
@@ -93,7 +95,10 @@ namespace WebApi.Controllers
                             return Json(new { success = true, message = "兑换成功！" });
                         }
                     }
-                    return Json(new { success = false, message = "积分不足！" });
+                    else
+                    {
+                        return Json(new { success = false, message = "积分不足！" });
+                    }
                 }
             }
             return Json(new { success = false, message = "发生错误！" });
