@@ -26,6 +26,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult GetVipCoupon(string openId = "")
         {
             var vip = _vipService.GetVipInfo(openId);
@@ -39,6 +40,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IHttpActionResult GetCoupon(string couponId = "")
         {
             var coupon = _couponService.GetCoupon(couponId);

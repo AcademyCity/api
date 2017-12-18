@@ -45,6 +45,5 @@ namespace Core.Entity.Dto
         public int? ValidDate { get; set; }
 
         public bool? IsUse { get; set; }
-
     }
 }

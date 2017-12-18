@@ -36,7 +36,12 @@ namespace Application
         {
             if (vip != null)
             {
-                return _couponRepository.QueryCouponByVipId(vip.VipId);
+                var ShowCouponList = _couponRepository.QueryCouponByVipId(vip.VipId);
+                foreach (var item in ShowCouponList)
+                {
+                    item.CouponImg = ConfigurationManager.AppSettings["ImgSiteAddress"] + item.CouponImg;
+                }
+                return ShowCouponList;
             }
             return null;
         }
@@ -48,7 +53,10 @@ namespace Application
         /// <returns></returns>
         public CouponDto GetCoupon(string couponId)
         {
-            return _couponRepository.QueryCouponByCouponId(couponId);
+            var Coupon = _couponRepository.QueryCouponByCouponId(couponId);
+            Coupon.CouponImg = ConfigurationManager.AppSettings["ImgSiteAddress"] + Coupon.CouponImg;
+            Coupon.CouponExplain = Coupon.CouponExplain.Replace("\n", "<br>");
+            return Coupon;
         }
 
         /// <summary>
