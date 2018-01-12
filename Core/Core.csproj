@@ -89,12 +89,15 @@
   <ItemGroup>
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Entity\Input\SuggestInput.cs" />
     <Compile Include="Entity\Dto\CouponDto.cs" />
     <Compile Include="Entity\Coupon.cs" />
     <Compile Include="Entity\CouponConfig.cs" />
     <Compile Include="Entity\Point.cs" />
     <Compile Include="Entity\PointRecord.cs" />
-    <Compile Include="Entity\Result.cs" />
+    <Compile Include="Entity\Suggest.cs" />
+    <Compile Include="Entity\SuggestContent.cs" />
+    <Compile Include="Entity\SuggestDetail.cs" />
     <Compile Include="Entity\Vip.cs" />
     <Compile Include="Entity\VipLoginLog.cs" />
     <Compile Include="Entity\VipSource.cs" />

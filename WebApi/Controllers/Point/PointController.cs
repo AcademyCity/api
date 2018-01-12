@@ -11,7 +11,6 @@ using Application;
 
 namespace WebApi.Controllers
 {
-    [AllowAnonymous]
     public class PointController : BaseApiController
     {
         VipService _vipService;
@@ -37,7 +36,7 @@ namespace WebApi.Controllers
                 var couponName = _couponService.GetCouponHint((int)point.VipPoint);
                 return Json(new { success = true, message = new { score = point.VipPoint, pointRecord = pointRecord , couponName = couponName } });
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
 
         [HttpGet]
@@ -52,16 +51,16 @@ namespace WebApi.Controllers
                 {
                     if (_pointService.UsePoint(vip, score))
                     {
-                        return Json(new { success = true, message = "兑换成功！" });
+                        return Json(new { success = true, message = "兑换成功" });
                     }
                 }
                 else
                 {
-                    return Json(new { success = false, message = "积分不足！" });
+                    return Json(new { success = false, message = "积分不足" });
                 }
 
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
 
     }

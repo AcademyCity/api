@@ -30,7 +30,7 @@ namespace WebApi.Controllers
         //    {
         //        return Json(new { success = true, message = vip });
         //    }
-        //    return Json(new { success = false, message = "未注册，请注册后登录！" });
+        //    return Json(new { success = false, message = "未注册，请注册后登录" });
         //}
     }
 }

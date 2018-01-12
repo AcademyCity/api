@@ -133,6 +133,7 @@
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\Coupon\CouponController.cs" />
     <Compile Include="Controllers\Point\PointController.cs" />
+    <Compile Include="Controllers\Suggest\SuggestController.cs" />
     <Compile Include="Controllers\Vip\VipController.cs" />
     <Compile Include="Controllers\Login\WeChatController.cs" />
     <Compile Include="Global.asax.cs">

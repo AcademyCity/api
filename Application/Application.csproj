@@ -54,6 +54,7 @@
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Point\PointService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Suggest\SuggestService.cs" />
     <Compile Include="Vip\VipService.cs" />
   </ItemGroup>
   <ItemGroup>

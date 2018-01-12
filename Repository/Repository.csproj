@@ -50,6 +50,7 @@
     <Compile Include="CouponManage\CouponRepository.cs" />
     <Compile Include="PointManage\PointRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuggestManage\SuggestRepository.cs" />
     <Compile Include="VipManage\VipRepository.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,6 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IHttpActionResult GetVipCoupon(string openId = "")
         {
             var vip = _vipService.GetVipInfo(openId);
@@ -36,11 +35,10 @@ namespace WebApi.Controllers
             {
                 return Json(new { success = true, message = coupon });
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IHttpActionResult GetCoupon(string couponId = "")
         {
             var coupon = _couponService.GetCoupon(couponId);
@@ -49,11 +47,10 @@ namespace WebApi.Controllers
             {
                 return Json(new { success = true, message = coupon });
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IHttpActionResult GetShowCoupon()
         {
             var coupon = _couponService.GetShowCoupon();
@@ -62,11 +59,10 @@ namespace WebApi.Controllers
             {
                 return Json(new { success = true, message = coupon });
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IHttpActionResult GetShowCouponInfo(string couponConfigId = "")
         {
             var coupon = _couponService.GetShowCoupon(couponConfigId);
@@ -75,11 +71,10 @@ namespace WebApi.Controllers
             {
                 return Json(new { success = true, message = coupon });
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IHttpActionResult ExChangeCoupon(string openId = "", string couponConfigId = "")
         {
             var vip = _vipService.GetVipInfo(openId);
@@ -94,16 +89,16 @@ namespace WebApi.Controllers
                     {
                         if (_couponService.ExChangeCoupon(vip.VipId, coupon.CouponConfigId))
                         {
-                            return Json(new { success = true, message = "兑换成功！" });
+                            return Json(new { success = true, message = "兑换成功" });
                         }
                     }
                     else
                     {
-                        return Json(new { success = false, message = "积分不足！" });
+                        return Json(new { success = false, message = "积分不足" });
                     }
                 }
             }
-            return Json(new { success = false, message = "发生错误！" });
+            return Json(new { success = false, message = "发生错误" });
         }
     }
 }
