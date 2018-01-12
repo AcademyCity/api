@@ -38,21 +38,21 @@ namespace Repository.SuggestManage
 			{
 				SuggestId = Guid.NewGuid(),
 				VipId = vipId,
-				StoreNo = suggest.Suggest.StoreNo,
-				PosNo = suggest.Suggest.PosNo,
-				EatDate = suggest.Suggest.EatDate,
-				EatTime = suggest.Suggest.EatTime,
+				StoreNo = suggest.StoreNo,
+				PosNo = suggest.PosNo,
+				EatDate = suggest.EatDate,
+				EatTime = suggest.EatTime,
 				AddTime = DateTime.Now,
-				Reply1 = suggest.SuggestContent.Reply1,
-				Reply2 = suggest.SuggestContent.Reply2,
-				Reply3 = suggest.SuggestContent.Reply3,
-				Reply4 = suggest.SuggestContent.Reply4,
-				Reply5 = suggest.SuggestContent.Reply5,
-				Reply6 = suggest.SuggestContent.Reply6,
-				Reply7 = suggest.SuggestContent.Reply7,
-				Reply8 = suggest.SuggestContent.Reply8,
-				Reply = suggest.SuggestDetail.Reply,
-				ReplyDetail = suggest.SuggestDetail.ReplyDetail
+				Reply1 = suggest.Reply1,
+				Reply2 = suggest.Reply2,
+				Reply3 = suggest.Reply3,
+				Reply4 = suggest.Reply4,
+				Reply5 = suggest.Reply5,
+				Reply6 = suggest.Reply6,
+				Reply7 = suggest.Reply7,
+				Reply8 = suggest.Reply8,
+				Reply = suggest.Reply,
+				ReplyDetail = suggest.ReplyDetail
 			};
 			return this.ExecuteTransactionSql(sql, obj);
 		}
