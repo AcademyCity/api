@@ -8,8 +8,6 @@ namespace Core.Entity.Input
 
 	public class SuggestInput
 	{
-		public string SuggestId { get; set; }
-
 		public string StoreNo { get; set; }
 
 		public string PosNo { get; set; }
