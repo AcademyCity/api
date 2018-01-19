@@ -41,7 +41,7 @@ namespace Application
             if (_vipRepository.QueryVipIsExist(openId))
             {
                 var vip = _vipRepository.QueryVipByOpenId(openId);
-                _redisManage.StringSet(openId, JsonConvert.SerializeObject(vip), TimeSpan.FromSeconds(600));
+				_redisManage.StringSet(openId, JsonConvert.SerializeObject(vip), TimeSpan.FromSeconds(600));
                 return true;
             }
 

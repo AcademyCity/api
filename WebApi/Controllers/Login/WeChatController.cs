@@ -72,7 +72,7 @@ namespace WebApi.Controllers
 				if (_loginService.WeChatLogin(result.openid))
 				{
 					var vip = _vipService.GetVipInfo(result.openid);
-					return Json(new { success = true, message = new { success = true, message = new { token = Utils.MD5Encrypt(result.openid + vip.Sign), openId = result.openid, vipCode = vip.VipCode } } });
+					return Json(new { success = true, message = new { success = true, message = new { token = Utils.MD5Encrypt(result.openid + vip.VipCode), openId = result.openid, vipCode = vip.VipCode } } });
 				}
 				else
 				{
@@ -128,7 +128,7 @@ namespace WebApi.Controllers
 				if (_loginService.WeChatRegist(v, result.openid))
 				{
 					var vip = _vipService.GetVipInfo(result.openid);
-					return Json(new { success = true, message = new { token = Utils.MD5Encrypt(result.openid + vip.Sign), openId = result.openid, vipCode = vip.VipCode } });
+					return Json(new { success = true, message = new { token = Utils.MD5Encrypt(result.openid + vip.VipCode), openId = result.openid, vipCode = vip.VipCode } });
 				}
 				else
 				{

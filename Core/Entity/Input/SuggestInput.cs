@@ -36,5 +36,7 @@ namespace Core.Entity.Input
 
 		public string Reply8 { get; set; }
 
+		public string OpenId { get; set; }
+
 	}
 }

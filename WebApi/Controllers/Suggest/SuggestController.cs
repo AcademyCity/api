@@ -17,14 +17,13 @@ namespace WebApi.Controllers.Suggest
 		public SuggestController()
 		{
 			_vipService = new VipService();
-			_suggestService = new SuggestService(); ;
+			_suggestService = new SuggestService();
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
-		public IHttpActionResult AddSuggest(SuggestInput suggest, string openId)
+		public IHttpActionResult AddSuggest(SuggestInput suggest)
 		{
-			var vip = _vipService.GetVipInfo(openId);
+			var vip = _vipService.GetVipInfo(suggest.OpenId);
 
 			if (vip != null)
 			{
