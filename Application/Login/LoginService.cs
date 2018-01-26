@@ -56,7 +56,7 @@ namespace Application
         /// <returns></returns>
         public bool WeChatRegist(Vip v, string openId)
         {
-            var IsExist = !string.IsNullOrEmpty(_redisManage.StringGet(openId));
+			var IsExist = !string.IsNullOrEmpty(_redisManage.StringGet(openId));
             if (IsExist)
             {
                 return true;
@@ -69,7 +69,7 @@ namespace Application
                 //生成会员编号
                 v.VipCode = _vipRepository.QueryNewVipCode();
                 v.VipCode = Utils.GetVipCode(v.VipCode);
-
+				
                 if (_vipRepository.InsertVip(v, openId))
                 {
                     var vip = _vipRepository.QueryVipByOpenId(openId);

@@ -31,7 +31,6 @@ namespace WebApi.Authorize
 		public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
 		{
 			base.IsAuthorized(actionContext);
-			return;
 			//是否允许匿名访问，则返回未验证401
 			var attributes = actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().OfType<AllowAnonymousAttribute>();
 			bool isAnonymous = attributes.Any(a => a is AllowAnonymousAttribute);

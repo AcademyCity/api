@@ -31,7 +31,7 @@ namespace Repository.VipManage
                 (@VipId,@SourceName,@SourceId) ";
             //初始化Vip积分
             sql += @"INSERT INTO [IndexCRM].[dbo].[Point]
-                ([VipId],[Point]) 
+                ([VipId],[VipPoint]) 
                 VALUES 
                 (@VipId,0)";
 
